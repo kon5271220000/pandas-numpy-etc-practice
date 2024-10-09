@@ -46,3 +46,28 @@ sns.barplot(x=obj_cols,y=uniqe_val)
 
 #save bar plot
 plt.savefig("01_House price Analysis and Prediction/uniqe value of categorical feature")
+
+plt.figure(figsize=(24,6))
+plt.title('categorical Feature: Distribution')
+plt.xticks(rotation=90)
+index = 1
+
+for obj_col in obj_cols:
+    y = dataset[obj_col].value_counts()
+    plt.subplot(1, 4, index)
+    plt.xticks(rotation=90)
+    sns.barplot(x=list(y.index), y=y)
+    index+=1
+plt.savefig("01_House price Analysis and Prediction/categorical distribution")
+
+#data cleaning
+#drop id collumm
+dataset.drop(['Id'], axis=1, inplace=True)
+
+#Replacing SalePrice empty values with their mean values
+dataset['SalePrice'] = dataset['SalePrice'].fillna(dataset["SalePrice"].mean())
+#drop record with null value
+new_dataset = dataset.dropna()
+#checking feature which have null values in the new dataframe (if there are still any)
+print(new_dataset.isnull().sum())
+
