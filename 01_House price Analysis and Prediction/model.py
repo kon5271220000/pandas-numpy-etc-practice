@@ -2,7 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 import seaborn as sns
 
-dataset = pd.read_excel("01_House price Analysis and Prediction/HousePricePrediction.xlsx")
+
+dataset = pd.read_excel("HousePricePrediction.xlsx")
 
 print(dataset.shape)
 
@@ -33,7 +34,7 @@ plt.figure(figsize=(12,6))
 sns.heatmap(numerical_dataset.corr(), cmap='BrBG', fmt='.2f', linewidths= 2, annot= True)
 
 #save heat map
-plt.savefig("01_House price Analysis and Prediction/heatmap.png", dpi=300)
+plt.savefig("heatmap.png", dpi=300)
 
 #draw bar plot
 uniqe_val = []
@@ -45,7 +46,7 @@ plt.xticks(rotation=90)
 sns.barplot(x=obj_cols,y=uniqe_val)
 
 #save bar plot
-plt.savefig("01_House price Analysis and Prediction/uniqe value of categorical feature")
+plt.savefig("uniqe value of categorical feature")
 
 plt.figure(figsize=(24,6))
 plt.title('categorical Feature: Distribution')
@@ -58,7 +59,7 @@ for obj_col in obj_cols:
     plt.xticks(rotation=90)
     sns.barplot(x=list(y.index), y=y)
     index+=1
-plt.savefig("01_House price Analysis and Prediction/categorical distribution")
+plt.savefig("categorical distribution")
 
 #data cleaning
 #drop id collumm
@@ -70,4 +71,10 @@ dataset['SalePrice'] = dataset['SalePrice'].fillna(dataset["SalePrice"].mean())
 new_dataset = dataset.dropna()
 #checking feature which have null values in the new dataframe (if there are still any)
 print(new_dataset.isnull().sum())
+
+s = (new_dataset.dtypes == 'object')
+object_cols = list(s[s].index)
+print("Categorical variables:")
+print(object_cols)
+print('No. of. categorical features: ', len(obj_cols))
 
